@@ -18,7 +18,6 @@ export default function Home() {
           const res = await fetch(`/api/scraping?url=${encodeURIComponent(hoja.url)}`);
           if (!res.ok) throw new Error(`Error en el servidor para ${hoja.dia}`);
           const filasExtraidas = await res.json();
-          // Agregamos el día correspondiente a cada fila
           const conDia = filasExtraidas.map(f => ({ 
             ...f, 
             dia: hoja.dia 

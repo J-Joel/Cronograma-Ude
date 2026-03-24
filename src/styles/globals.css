@@ -35,6 +35,7 @@ main {
 }
 
 .contenedor {
+  flex-grow: 1;
   display: flex;
   position: relative;
   flex-direction: column;
@@ -45,15 +46,42 @@ main {
   width: 75%;
   padding: 3%;
   margin: 2% 0 2% 0;
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 10px;
-  border: 2px solid white;
+  border-radius: 30px;
   transition: backdrop-filter 0.3s, width 0.3s;
+  z-index: 1;
 }
-.contenedor:hover {
-  backdrop-filter: blur(8px);
+/* Primera capa de la clase efectos */
+.contenedor::before{
+    content: '';
+    position: absolute;
+    width: calc(100%);
+    height: calc(100%);
+    border-radius: inherit;
+    background-color: rgb(255, 255, 255);
+    opacity: 0;
+    z-index: -2;
+    transition: all .3s, filter 1s, opacity .5s;
 }
-
+/* Segunda capa de la clase efectos */
+.contenedor::after{
+    content: '';
+    position: absolute;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    border-radius: inherit;
+    background-color: rgba(88, 88, 88, 0.664);
+    border: 2px solid white;
+    z-index: -1;
+    transition: all .3s, filter 1s;
+}
+/* Efectos para la capas de la clase efecto */
+.contenedor:hover::after {
+    filter: drop-shadow(0 0 10px rgb(0,0,0));
+}
+.contenedor:hover::before {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgb(255, 255, 255));
+}
 .controles-cronograma {
   display: flex;
   flex-direction: column;
@@ -67,7 +95,7 @@ main {
   border-radius: 5px;
 }
 .selector-carrera {
-  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco casi opaco como el tuyo */
+  background-color: rgba(255, 255, 255, 0.9);
   text-align: center;
   color: #333;
   padding: 8px 15px;
@@ -80,10 +108,11 @@ main {
 }
 .selector-carrera:disabled {
   border-color: #555;
+  cursor: progress;
   color: #888;
 }
 .btnCrono {
-  background-color: rgba(51, 51, 51, 0.8); /* Gris oscuro semitransparente */
+  background-color: rgba(51, 51, 51, 0.8);
   color: white;
   padding: 10px 20px;
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -91,21 +120,22 @@ main {
   font-size: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
-  backdrop-filter: blur(5px); /* Efecto de cristal esmerilado */
+  backdrop-filter: blur(5px);
 }
-.btnCrono:hover {
+.btnCrono:hover:not(:disabled) {
   background-color: rgba(255, 255, 255, 0.034);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(255, 255, 255, 0.068);
+  filter: drop-shadow(0 0 10px rgb(255, 255, 255));
 }
 .btnCrono:disabled {
-  background-color: #444; /* Un gris oscuro que combine con tu tema */
+  background-color: #444;
   cursor: not-allowed;
   opacity: 0.7;
 }
 
 .contenedor-tabla {
-  overflow-x: auto; /* Permite scroll horizontal en móviles */
+  overflow-x: auto;
   color: black;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -144,6 +174,7 @@ main {
 }
 .tabla-horarios tbody tr:hover::after {
   background-color: rgba(34, 34, 34, 0.199);
+  filter: drop-shadow(0 0 10px rgb(255, 255, 255));
 }
 .tabla-horarios tr:nth-child(even) {
   background-color: #f8f9fa;
@@ -173,6 +204,7 @@ main {
   font-weight: bold;
   text-transform: uppercase;
   position: relative;
+  filter: drop-shadow(0 2px 2px #c62828);
 }
 .virtual {
   background-color: #ffebee !important;
@@ -181,6 +213,7 @@ main {
   font-weight: bold;
   text-transform: uppercase;
   position: relative;
+  filter: drop-shadow(0 2px 2px #a128c6);
 }
 .copy{
   position: fixed;

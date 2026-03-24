@@ -41,7 +41,7 @@ export function extraerEstructurado(html, mapeo) {
             const separador = /\s*-\s*|\s+[yY]\s+/;
             const listaDeCarreras = item.carrera.split(separador)
                 .map(c => c.trim())
-                .filter(c => c.length > 0); // Elimina vacíos
+                .filter(c => c.length > 0);
             listaDeCarreras.forEach(carreraUnica => {
                 resultados.push({
                     ...item,

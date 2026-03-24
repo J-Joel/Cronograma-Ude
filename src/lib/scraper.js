@@ -1,11 +1,17 @@
 import axios from "axios";
 import * as cheerio from 'cheerio';
 export async function obtenerHTML(url) {
+    if (!url) return null;
     try {
-        const { data } = await axios.get(url);
+        const { data } = await axios.get(url, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+                'Accept-Language': 'es-ES,es;q=0.9',
+            }
+        });
         return data; 
     } catch (error) {
-        console.error("Error al obtener el HTML:", error.message);
+        console.error("Error al obtener el HTML en Producción:", error.message);
         return null;
     }
 }

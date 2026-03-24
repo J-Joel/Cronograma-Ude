@@ -8,11 +8,8 @@ export async function GET(request) {
         return NextResponse.json({ error: "Falta la URL" }, { status: 400 });
     }
     try {
-        // 1. El servidor descarga el HTML (aquí no hay bloqueo de CORS)
         const html = await obtenerHTML(url);
-        // 2. El servidor extrae los datos estructurados
         const datosLimpios = extraerEstructurado(html, REGLAS);
-        // 3. Enviamos solo lo necesario al cliente
         return NextResponse.json(datosLimpios);
     } catch (error) {
         console.error("Error en API Route:", error);

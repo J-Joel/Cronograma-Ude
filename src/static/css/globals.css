@@ -1,0 +1,243 @@
+html {
+  height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body {
+  background-image: url('https://img.freepik.com/free-vector/night-time-sky-background-with-glittering-stars_1048-19664.jpg?semt=ais_hybrid&w=740&q=80');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  min-height: 100vh;
+  width: 100%;
+  margin:0px;
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contenedor {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 75%;
+  padding: 3%;
+  margin: 2% 0 2% 0;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  border: 2px solid white;
+  transition: backdrop-filter 0.3s, width 0.3s;
+}
+.contenedor:hover {
+  backdrop-filter: blur(8px);
+}
+
+.controles-cronograma {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+.controles-cronograma > h1 {
+  padding: 5px;
+  user-select: none;
+  background-color: rgba(34, 34, 34, 0.5);
+  border-radius: 5px;
+}
+.selector-carrera {
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco casi opaco como el tuyo */
+  text-align: center;
+  color: #333;
+  padding: 8px 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-family: 'Arial Black', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.selector-carrera:disabled {
+  border-color: #555;
+  color: #888;
+}
+.btnCrono {
+  background-color: rgba(51, 51, 51, 0.8); /* Gris oscuro semitransparente */
+  color: white;
+  padding: 10px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px); /* Efecto de cristal esmerilado */
+}
+.btnCrono:hover {
+  background-color: rgba(255, 255, 255, 0.034);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.068);
+}
+.btnCrono:disabled {
+  background-color: #444; /* Un gris oscuro que combine con tu tema */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.contenedor-tabla {
+  overflow-x: auto; /* Permite scroll horizontal en móviles */
+  color: black;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.tabla-horarios {
+  width: 100%;
+  user-select: none;
+  border-collapse: collapse;
+  font-family: sans-serif;
+  background-color: white;
+}
+.tabla-horarios thead {
+  background-color: rgba(34, 34, 34, 0.808);
+  color: white;
+}
+.tabla-horarios th, 
+.tabla-horarios td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+.tabla-horarios tbody tr {
+  position: relative;
+  transition: background-color 0.2s ease;
+  z-index:1;
+}
+.tabla-horarios tbody tr::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: multiply;
+  z-index: 3;
+}
+.tabla-horarios tbody tr:hover::after {
+  background-color: rgba(34, 34, 34, 0.199);
+}
+.tabla-horarios tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+.celda-asignatura {
+  font-weight: bold;
+  color: #2980b9;
+}
+.badge-carrera {
+  background-color: rgba(255, 115, 0, 0.253);
+  color: #0277bd;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+.celda-aula {
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+  font-family: monospace;
+}
+.feriado {
+  background-color: #ffebee !important;
+  color: #c62828 !important;
+  border: 1px solid #ef9a9a;
+  font-weight: bold;
+  text-transform: uppercase;
+  position: relative;
+}
+.virtual {
+  background-color: #ffebee !important;
+  color: #a128c6 !important;
+  border: 1px solid #ef9ad5;
+  font-weight: bold;
+  text-transform: uppercase;
+  position: relative;
+}
+.copy{
+  position: fixed;
+  text-align: center;
+  user-select: none;
+  margin: 0px;
+  font-size: 10px;
+  left: 0px;
+  bottom: 0px;
+  background-color: black;
+}
+@media (max-width: 1380px) {
+  .contenedor {
+    width: 85%;
+  }
+}
+@media (max-width: 875px) {
+  .contenedor {
+    width: 90%;
+    padding: 20px 0px 30px 0px;
+    margin: 0px;
+  }
+  .tdcod {
+    width: 0px;
+    display: none !important;
+  }
+}
+@media (max-width: 696px) {
+  .contenedor {
+    width: 100%;
+    border-radius: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    margin: 5% 0 5% 0;
+  }
+  .contenedor-tabla {
+    border-radius: 0px;
+  }
+  .celda-asignatura {
+    font-size: 12px;
+  }
+  .tabla-horarios tr:first-child th {
+    padding: 6px 5px;
+  }
+  .tabla-horarios td {
+    padding: 6px 5px;
+  }
+  .badge-carrera {
+    font-size: 12px;
+    margin: 0px;
+    white-space: wrap;
+    line-height: 1.8;
+  }
+  .tabla-horarios td:nth-child(4) {
+    font-size: 13px;
+  }
+  .tabla-horarios td:nth-child(5) {
+    font-size: 12px;
+  }
+}

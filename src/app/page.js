@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { obtenerHTML, extraerEstructurado } from '@/lib/scraper';
-import { URLS, REGLAS } from '@/config/urls';
+import { URLS } from '@/config/urls';
 
 export default function Home() {
   const [listaCompleta, setListaCompleta] = useState([]);
@@ -13,26 +12,26 @@ export default function Home() {
     const cargarSecuencial = async () => {
       setCargando(true);
       let acumulador = [];
-
       try {
-        // Volvemos al FOR que te funcionaba, pero dentro del flujo de React
         for (const hoja of URLS) {
-          const html = await obtenerHTML(hoja.url);
-          if (html) {
-            const filas = extraerEstructurado(html, REGLAS);
-            const conDia = filas.map(f => ({ ...f, dia: hoja.dia }));
-            acumulador = [...acumulador, ...conDia];
-          }
+          // Usamos encodeURIComponent para que los símbolos de la URL no rompan la petición
+          const res = await fetch(`/api/scraping?url=${encodeURIComponent(hoja.url)}`);
+          if (!res.ok) throw new Error(`Error en el servidor para ${hoja.dia}`);
+          const filasExtraidas = await res.json();
+          // Agregamos el día correspondiente a cada fila
+          const conDia = filasExtraidas.map(f => ({ 
+            ...f, 
+            dia: hoja.dia 
+          }));
+          acumulador = [...acumulador, ...conDia];
         }
-        
         setListaCompleta(acumulador);
       } catch (error) {
-        console.error("Error en la carga:", error);
+        console.error("Fallo la carga desde la API:", error);
       } finally {
         setCargando(false);
       }
     };
-
     cargarSecuencial();
   }, []);
 

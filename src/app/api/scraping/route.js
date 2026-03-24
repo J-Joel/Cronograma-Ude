@@ -1,13 +1,21 @@
 import { NextResponse } from 'next/server';
-import { obtenerHTML } from '@/lib/scraper';
-
+import { obtenerHTML, extraerEstructurado } from '@/lib/scraper';
+import { REGLAS } from '@/config/urls';
 export async function GET(request) {
-    // Obtenemos la URL de los parámetros (ej: /api/extraer?url=...)
     const { searchParams } = new URL(request.url);
     const url = searchParams.get('url');
     if (!url) {
         return NextResponse.json({ error: "Falta la URL" }, { status: 400 });
     }
-    const html = await obtenerHTML(url);
-    return NextResponse.json({ html });
-}
+    try {
+        // 1. El servidor descarga el HTML (aquí no hay bloqueo de CORS)
+        const html = await obtenerHTML(url);
+        // 2. El servidor extrae los datos estructurados
+        const datosLimpios = extraerEstructurado(html, REGLAS);
+        // 3. Enviamos solo lo necesario al cliente
+        return NextResponse.json(datosLimpios);
+    } catch (error) {
+        console.error("Error en API Route:", error);
+        return NextResponse.json({ error: "Error procesando la hoja" }, { status: 500 });
+    }
+};
